@@ -5,6 +5,52 @@ import logo from '../assets/logo.png'
 const WA = 'https://wa.me/5491154047769?text=' + encodeURIComponent('Hola! Quiero reservar un turno en Estudio Limadas')
 const heading = "'Cormorant Garamond', serif"
 
+function isOpen(): { open: boolean; label: string } {
+  const now = new Date()
+  // Argentina is UTC-3
+  const utc = now.getTime() + now.getTimezoneOffset() * 60000
+  const ar = new Date(utc + -3 * 3600000)
+  const day = ar.getDay() // 0=dom, 1=lun, 2=mar...
+  const hour = ar.getHours()
+  const min = ar.getMinutes()
+  const t = hour + min / 60
+
+  // Dom=0, Lun=1: cerrado
+  if (day === 0 || day === 1) return { open: false, label: 'Cerrado' }
+  // Sab=6: 10-16
+  if (day === 6) {
+    if (t >= 10 && t < 16) return { open: true, label: 'Abierto hasta 16hs' }
+    return { open: false, label: 'Cerrado' }
+  }
+  // Mar-Vie: 10-18
+  if (t >= 10 && t < 18) return { open: true, label: 'Abierto hasta 18hs' }
+  return { open: false, label: 'Cerrado' }
+}
+
+function OpenBadge() {
+  const { open, label } = isOpen()
+  return (
+    <div className="open-badge" style={{
+      display: 'inline-flex', alignItems: 'center', gap: 6,
+      padding: '5px 14px', borderRadius: 50,
+      background: open ? 'rgba(34,197,94,0.08)' : 'rgba(220,50,50,0.06)',
+      border: `1px solid ${open ? 'rgba(34,197,94,0.2)' : 'rgba(220,50,50,0.15)'}`,
+    }}>
+      <span className={open ? 'dot-green' : 'dot-red'} style={{
+        width: 7, height: 7, borderRadius: '50%',
+        background: open ? '#22c55e' : '#dc3232',
+        flexShrink: 0,
+      }} />
+      <span style={{
+        fontSize: 10, fontWeight: 500, letterSpacing: 1.2,
+        textTransform: 'uppercase', color: open ? '#16a34a' : '#b91c1c',
+        fontFamily: "'Inter', system-ui, sans-serif",
+        whiteSpace: 'nowrap',
+      }}>{label}</span>
+    </div>
+  )
+}
+
 const links = [
   { label: 'Servicios', href: '#servicios' },
   { label: 'Trabajos', href: '#galeria' },
@@ -69,6 +115,7 @@ export default function Navbar() {
 
           {/* Desktop nav links */}
           <div className="nav-desktop" style={{ display: 'flex', gap: 38, alignItems: 'center' }}>
+            <OpenBadge />
             {links.map(l => (
               <a key={l.href} href={l.href} className="nav-link" style={{
                 textDecoration: 'none',
@@ -157,6 +204,8 @@ export default function Navbar() {
               <img src={logo} alt="LMDS" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
 
+            <OpenBadge />
+
             {links.map((l, i) => (
               <motion.a
                 key={l.href}
@@ -203,6 +252,12 @@ export default function Navbar() {
           transform: translateY(-2px);
           box-shadow: 0 8px 28px rgba(176,96,128,0.3) !important;
         }
+        @keyframes dot-pulse {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.5; transform: scale(1.4); }
+        }
+        .dot-green { animation: dot-pulse 2s ease-in-out infinite; }
+        .dot-red { animation: dot-pulse 3s ease-in-out infinite; }
         @media (max-width: 768px) {
           .nav-desktop { display: none !important; }
           .nav-cta-desktop { display: none !important; }
