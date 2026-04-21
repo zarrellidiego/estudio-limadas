@@ -8,10 +8,10 @@ import trabajo4 from '../assets/trabajo4.jpg'
 const heading = "'Cormorant Garamond', serif"
 
 const images = [
-  { src: trabajo4, label: 'Esculpidas', span: 'tall' },
-  { src: trabajo1, label: 'Belleza de Pies', span: 'normal' },
-  { src: trabajo3, label: 'Pedicura Nude', span: 'normal' },
-  { src: trabajo2, label: 'Esmaltado Semi', span: 'tall' },
+  { src: trabajo4, label: 'Esculpidas' },
+  { src: trabajo1, label: 'Belleza de Pies' },
+  { src: trabajo3, label: 'Pedicura Nude' },
+  { src: trabajo2, label: 'Esmaltado Semi' },
 ]
 
 export default function Gallery() {
@@ -30,35 +30,39 @@ export default function Gallery() {
           Nuestros trabajos
         </motion.h2>
 
-        {/* Masonry-style grid */}
-        <div className="masonry-grid" style={{
-          display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)',
-          gridAutoRows: '200px', gap: 14,
+        {/* Uniform grid */}
+        <div className="gallery-grid" style={{
+          display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16,
         }}>
           {images.map((img, i) => (
             <motion.div
               key={img.label}
-              initial={{ opacity: 0, scale: 0.92 }}
-              animate={inView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 0.7, delay: 0.15 + i * 0.12, ease: [0.22, 1, 0.36, 1] }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.7, delay: 0.15 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
               className="gallery-item"
               style={{
-                position: 'relative', borderRadius: 16, overflow: 'hidden', cursor: 'pointer',
-                gridRow: img.span === 'tall' ? 'span 2' : 'span 1',
+                position: 'relative', aspectRatio: '3/4', borderRadius: 18,
+                overflow: 'hidden', cursor: 'pointer',
               }}>
               <img src={img.src} alt={img.label} loading="lazy"
-                style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 1s cubic-bezier(0.22, 1, 0.36, 1)' }} />
+                style={{
+                  width: '100%', height: '100%', objectFit: 'cover',
+                  transition: 'transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), filter 0.5s ease',
+                  filter: 'brightness(0.95)',
+                }} />
               <div className="gallery-overlay" style={{
                 position: 'absolute', inset: 0,
-                background: 'linear-gradient(to top, rgba(26,15,20,0.75) 0%, rgba(26,15,20,0.15) 35%, transparent 60%)',
+                background: 'linear-gradient(to top, rgba(26,15,20,0.8) 0%, rgba(26,15,20,0.2) 30%, transparent 55%)',
                 display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end',
-                padding: 24, opacity: 0, transition: 'opacity 0.5s ease',
+                padding: '0 16px 28px', opacity: 0,
+                transition: 'opacity 0.5s ease',
               }}>
+                <div style={{ width: 20, height: 1, background: 'rgba(216,166,177,0.6)', marginBottom: 12 }} />
                 <span style={{
                   color: '#fff', fontSize: 11, fontWeight: 500, letterSpacing: 2.5,
-                  textTransform: 'uppercase', marginBottom: 6,
+                  textTransform: 'uppercase',
                 }}>{img.label}</span>
-                <div style={{ width: 24, height: 1, background: 'rgba(216,166,177,0.6)' }} />
               </div>
             </motion.div>
           ))}
@@ -69,8 +73,8 @@ export default function Gallery() {
           <a href="https://www.instagram.com/estudio.limadas/" target="_blank" rel="noopener noreferrer"
             className="gallery-btn" style={{
               textDecoration: 'none', fontSize: 11, fontWeight: 500, letterSpacing: 2,
-              textTransform: 'uppercase', color: '#8a6575', border: '1.5px solid rgba(176,96,128,0.25)',
-              padding: '15px 38px', borderRadius: 50, display: 'inline-block',
+              textTransform: 'uppercase', color: '#8a6575', border: '1.5px solid rgba(176,96,128,0.2)',
+              padding: '14px 36px', borderRadius: 50, display: 'inline-block',
               transition: 'all 0.45s cubic-bezier(0.22, 1, 0.36, 1)',
             }}>
             Ver más en Instagram
@@ -78,12 +82,10 @@ export default function Gallery() {
         </motion.div>
       </div>
       <style>{`
-        @media (max-width: 768px) {
-          .masonry-grid { grid-template-columns: repeat(2, 1fr) !important; grid-auto-rows: 180px !important; }
-        }
-        .gallery-item:hover img { transform: scale(1.12); }
+        @media (max-width: 768px) { .gallery-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; } }
+        .gallery-item:hover img { transform: scale(1.08); filter: brightness(1.02) !important; }
         .gallery-item:hover .gallery-overlay { opacity: 1 !important; }
-        .gallery-btn:hover { border-color: #b06080 !important; color: #b06080 !important; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(176,96,128,0.12); }
+        .gallery-btn:hover { border-color: #b06080 !important; color: #fff !important; background: #b06080 !important; transform: translateY(-2px) scale(1.02); box-shadow: 0 10px 32px rgba(176,96,128,0.2); }
       `}</style>
     </section>
   )

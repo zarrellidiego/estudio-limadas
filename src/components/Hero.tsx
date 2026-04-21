@@ -69,28 +69,33 @@ export default function Hero() {
         display: 'flex', flexDirection: 'column', alignItems: 'center',
       }}>
 
-        {/* Logo — rendered on its exact bg color so the square is invisible */}
+        {/* Logo — breathing circle */}
         <motion.div
           {...fade(0)}
+          className="logo-breathe"
           style={{ marginBottom: 44, position: 'relative' }}
         >
-          {/* Subtle halo ring behind logo */}
-          <div style={{
-            position: 'absolute', inset: '-18px', borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(241,191,200,0.5) 0%, transparent 72%)',
-            filter: 'blur(16px)',
+          {/* Breathing halo ring */}
+          <div className="logo-halo" style={{
+            position: 'absolute', inset: '-24px', borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(241,191,200,0.45) 0%, transparent 70%)',
+            filter: 'blur(18px)',
+          }} />
+          {/* Outer pulse ring */}
+          <div className="logo-pulse-ring" style={{
+            position: 'absolute', inset: '-8px', borderRadius: '50%',
+            border: '1.5px solid rgba(216,166,177,0.2)',
           }} />
           <img
             src={logo}
             alt="LMDS — Estudio Limadas"
             style={{
-              width: 180,
-              height: 180,
+              width: 160,
+              height: 160,
               borderRadius: '50%',
               objectFit: 'cover',
               position: 'relative',
-              // Soft drop shadow using the logo's own palette
-              filter: 'drop-shadow(0 8px 32px rgba(184,110,138,0.22)) drop-shadow(0 2px 6px rgba(160,80,110,0.12))',
+              filter: 'drop-shadow(0 8px 32px rgba(184,110,138,0.22))',
               display: 'block',
             }}
           />
@@ -224,6 +229,22 @@ export default function Hero() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap');
 
+        @keyframes logo-breathe-anim {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.04); }
+        }
+        @keyframes logo-halo-anim {
+          0%, 100% { opacity: 0.6; transform: scale(1); }
+          50% { opacity: 1; transform: scale(1.12); }
+        }
+        @keyframes logo-ring-anim {
+          0%, 100% { opacity: 0.3; transform: scale(1); }
+          50% { opacity: 0; transform: scale(1.25); }
+        }
+        .logo-breathe { animation: logo-breathe-anim 4s ease-in-out infinite; }
+        .logo-halo { animation: logo-halo-anim 4s ease-in-out infinite; }
+        .logo-pulse-ring { animation: logo-ring-anim 4s ease-in-out infinite; }
+
         .hero-btn-primary {
           text-decoration: none;
           background: #1a0f14;
@@ -232,17 +253,28 @@ export default function Hero() {
           font-weight: 500;
           letter-spacing: 2px;
           text-transform: uppercase;
-          padding: 17px 44px;
+          padding: 16px 42px;
           border-radius: 50px;
           transition: all 0.45s cubic-bezier(0.22, 1, 0.36, 1);
           display: inline-block;
           font-family: 'Inter', system-ui, sans-serif;
           border: 1.5px solid transparent;
+          position: relative;
+          overflow: hidden;
         }
+        .hero-btn-primary::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.08) 50%, transparent 70%);
+          transform: translateX(-100%);
+          transition: transform 0.6s ease;
+        }
+        .hero-btn-primary:hover::after { transform: translateX(100%); }
         .hero-btn-primary:hover {
           background: #b06080;
-          transform: translateY(-3px);
-          box-shadow: 0 12px 40px rgba(176,96,128,0.35);
+          transform: translateY(-3px) scale(1.02);
+          box-shadow: 0 14px 44px rgba(176,96,128,0.35);
         }
 
         .hero-btn-outline {
@@ -252,19 +284,20 @@ export default function Hero() {
           font-weight: 500;
           letter-spacing: 2px;
           text-transform: uppercase;
-          padding: 15px 40px;
+          padding: 15px 38px;
           border-radius: 50px;
-          border: 1.5px solid rgba(176,96,128,0.3);
+          border: 1.5px solid rgba(176,96,128,0.25);
           transition: all 0.45s cubic-bezier(0.22, 1, 0.36, 1);
           display: inline-block;
           font-family: 'Inter', system-ui, sans-serif;
+          background: transparent;
         }
         .hero-btn-outline:hover {
           border-color: #b06080;
-          color: #b06080;
-          transform: translateY(-3px);
-          box-shadow: 0 8px 28px rgba(176,96,128,0.14);
-          background: rgba(241,191,200,0.1);
+          color: #fff;
+          background: #b06080;
+          transform: translateY(-3px) scale(1.02);
+          box-shadow: 0 10px 32px rgba(176,96,128,0.25);
         }
 
         @media (max-width: 480px) {

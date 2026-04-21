@@ -34,40 +34,47 @@ export default function Reviews() {
               transition={{ duration: 0.6, delay: 0.15 + i * 0.12, ease: [0.22, 1, 0.36, 1] }}
               className="review-card"
               style={{
-                background: 'rgba(255,255,255,0.8)', backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
-                border: '1px solid rgba(216,166,177,0.1)', borderRadius: 20,
-                padding: '40px 32px', textAlign: 'center',
+                background: '#fff',
+                border: '1px solid rgba(216,166,177,0.1)', borderRadius: 22,
+                padding: '44px 32px 36px', textAlign: 'center',
                 transition: 'all 0.5s cubic-bezier(0.22, 1, 0.36, 1)',
                 display: 'flex', flexDirection: 'column', alignItems: 'center',
+                position: 'relative', overflow: 'hidden',
               }}>
+              {/* Big decorative quote */}
+              <span style={{
+                position: 'absolute', top: 16, left: 24,
+                fontFamily: heading, fontSize: 80, fontWeight: 300,
+                color: 'rgba(216,166,177,0.12)', lineHeight: 1, pointerEvents: 'none',
+              }}>"</span>
+
               {/* Stars */}
-              <div style={{ display: 'flex', gap: 4, marginBottom: 24, justifyContent: 'center' }}>
+              <div style={{ display: 'flex', gap: 3, marginBottom: 24, justifyContent: 'center', position: 'relative' }}>
                 {[1,2,3,4,5].map(j => (
-                  <span key={j} style={{ color: '#D8A6B1', fontSize: 16 }}>★</span>
+                  <span key={j} style={{ color: '#D8A6B1', fontSize: 18 }}>★</span>
                 ))}
               </div>
               {/* Quote */}
               <p style={{
-                fontSize: 15.5, lineHeight: 1.8, color: 'rgba(26,15,20,0.7)',
+                fontSize: 15, lineHeight: 1.85, color: 'rgba(26,15,20,0.65)',
                 fontFamily: heading, fontWeight: 300, fontStyle: 'italic',
-                marginBottom: 28, maxWidth: 280,
+                marginBottom: 28, position: 'relative',
               }}>
                 "{r.text}"
               </p>
               {/* Divider */}
-              <div style={{ width: 28, height: 1, background: 'rgba(216,166,177,0.35)', marginBottom: 16 }} />
+              <div style={{ width: 28, height: 1, background: 'rgba(216,166,177,0.3)', marginBottom: 18 }} />
               {/* Name */}
               <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2.5, textTransform: 'uppercase', color: '#a87088' }}>
                 {r.name}
               </p>
-              <p style={{ fontSize: 10, color: '#b8a0aa', marginTop: 4, fontWeight: 300 }}>{r.time}</p>
+              <p style={{ fontSize: 10, color: '#c4b0b8', marginTop: 4, fontWeight: 300 }}>{r.time}</p>
             </motion.div>
           ))}
         </div>
       </div>
       <style>{`
-        .review-card:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(176,96,128,0.1); border-color: rgba(216,166,177,0.25) !important; }
+        .review-card:hover { transform: translateY(-6px); box-shadow: 0 24px 64px rgba(176,96,128,0.1); border-color: rgba(216,166,177,0.25) !important; }
         @media (max-width: 768px) { .reviews-grid { grid-template-columns: 1fr !important; max-width: 420px; margin: 0 auto; } }
       `}</style>
     </section>
