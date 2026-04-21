@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import logo from '../assets/logo.png'
 
-const WA_LINK = 'https://wa.me/5491154047769?text=' + encodeURIComponent('Hola! Quiero reservar un turno en Estudio Limadas')
+const WA = 'https://wa.me/5491154047769?text=' + encodeURIComponent('Hola! Quiero reservar un turno en Estudio Limadas')
 
 const links = [
   { label: 'Servicios', href: '#servicios' },
@@ -13,93 +13,93 @@ const links = [
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false)
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40)
-    window.addEventListener('scroll', onScroll)
-    return () => window.removeEventListener('scroll', onScroll)
+    const fn = () => setScrolled(window.scrollY > 40)
+    window.addEventListener('scroll', fn)
+    return () => window.removeEventListener('scroll', fn)
   }, [])
 
   return (
     <>
       <nav
-        className={`fixed top-0 w-full z-50 transition-all duration-500 ${
-          scrolled
-            ? 'bg-warm-white/90 backdrop-blur-xl shadow-[0_1px_0_rgba(0,0,0,0.05)]'
-            : 'bg-transparent'
-        }`}
+        style={{
+          position: 'fixed', top: 0, width: '100%', zIndex: 100,
+          background: scrolled ? 'rgba(250,248,247,0.92)' : 'transparent',
+          backdropFilter: scrolled ? 'blur(20px)' : 'none',
+          borderBottom: scrolled ? '1px solid rgba(0,0,0,0.05)' : 'none',
+          transition: 'all 0.5s',
+        }}
       >
-        <div className="max-w-[1200px] mx-auto px-6 flex items-center justify-between h-[72px]">
-          <a href="#" className="flex items-center">
-            <img src={logo} alt="LMDS" className="h-9 w-auto" />
+        <div style={{
+          maxWidth: 1200, margin: '0 auto', padding: '0 24px',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 72,
+        }}>
+          <a href="#">
+            <img src={logo} alt="LMDS" style={{ height: 36 }} />
           </a>
 
-          <div className="hidden md:flex items-center gap-10">
-            {links.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                className="text-[12px] font-medium tracking-[2.5px] uppercase text-gray hover:text-black transition-colors duration-300"
-              >
-                {l.label}
-              </a>
+          <div className="nav-desktop" style={{ display: 'flex', gap: 36 }}>
+            {links.map(l => (
+              <a key={l.href} href={l.href} style={{
+                textDecoration: 'none', color: '#7A7A7A', fontSize: 12,
+                fontWeight: 500, letterSpacing: 2.5, textTransform: 'uppercase',
+              }}>{l.label}</a>
             ))}
           </div>
 
-          <div className="flex items-center gap-4">
-            <a
-              href={WA_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden md:inline-flex items-center gap-2 bg-black text-white text-[12px] font-medium tracking-[1.5px] uppercase px-6 py-3 rounded-full hover:bg-black/80 transition-all duration-300"
-            >
-              Reservar turno
-            </a>
+          <a href={WA} target="_blank" rel="noopener noreferrer" className="nav-cta-desktop" style={{
+            textDecoration: 'none', background: '#111', color: '#fff', fontSize: 12,
+            fontWeight: 500, letterSpacing: 1.5, textTransform: 'uppercase',
+            padding: '12px 28px', borderRadius: 50,
+          }}>Reservar turno</a>
 
-            <button
-              onClick={() => setMenuOpen(!menuOpen)}
-              className="md:hidden w-10 h-10 flex flex-col items-center justify-center gap-[5px]"
-              aria-label="Menu"
-            >
-              <span className={`w-5 h-[1.5px] bg-black transition-all duration-300 ${menuOpen ? 'rotate-45 translate-y-[3.25px]' : ''}`} />
-              <span className={`w-5 h-[1.5px] bg-black transition-all duration-300 ${menuOpen ? '-rotate-45 -translate-y-[3.25px]' : ''}`} />
-            </button>
-          </div>
+          <button onClick={() => setOpen(!open)} className="nav-burger" style={{
+            display: 'none', background: 'none', border: 'none', cursor: 'pointer',
+            flexDirection: 'column', gap: 5, padding: 10,
+          }}>
+            <span style={{ width: 20, height: 1.5, background: '#111', display: 'block',
+              transform: open ? 'rotate(45deg) translateY(3.25px)' : 'none', transition: 'all 0.3s' }} />
+            <span style={{ width: 20, height: 1.5, background: '#111', display: 'block',
+              transform: open ? 'rotate(-45deg) translateY(-3.25px)' : 'none', transition: 'all 0.3s' }} />
+          </button>
         </div>
       </nav>
 
-      {/* Mobile menu */}
       <AnimatePresence>
-        {menuOpen && (
+        {open && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 bg-warm-white flex flex-col items-center justify-center gap-8"
+            style={{
+              position: 'fixed', inset: 0, zIndex: 99, background: '#FAF8F7',
+              display: 'flex', flexDirection: 'column', alignItems: 'center',
+              justifyContent: 'center', gap: 32,
+            }}
           >
-            {links.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                onClick={() => setMenuOpen(false)}
-                className="text-[14px] font-medium tracking-[3px] uppercase text-black"
-              >
-                {l.label}
-              </a>
+            {links.map(l => (
+              <a key={l.href} href={l.href} onClick={() => setOpen(false)} style={{
+                textDecoration: 'none', color: '#111', fontSize: 14,
+                fontWeight: 500, letterSpacing: 3, textTransform: 'uppercase',
+              }}>{l.label}</a>
             ))}
-            <a
-              href={WA_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4 bg-black text-white text-[12px] font-medium tracking-[1.5px] uppercase px-8 py-4 rounded-full"
-            >
-              Reservar turno
-            </a>
+            <a href={WA} target="_blank" rel="noopener noreferrer" style={{
+              marginTop: 16, textDecoration: 'none', background: '#111', color: '#fff',
+              fontSize: 12, fontWeight: 500, letterSpacing: 1.5, textTransform: 'uppercase',
+              padding: '16px 36px', borderRadius: 50,
+            }}>Reservar turno</a>
           </motion.div>
         )}
       </AnimatePresence>
+
+      <style>{`
+        @media (max-width: 768px) {
+          .nav-desktop { display: none !important; }
+          .nav-cta-desktop { display: none !important; }
+          .nav-burger { display: flex !important; }
+        }
+      `}</style>
     </>
   )
 }

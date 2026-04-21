@@ -1,51 +1,38 @@
 import logo from '../assets/logo.png'
 
-const WA_LINK = 'https://wa.me/5491154047769?text=' + encodeURIComponent('Hola! Quiero reservar un turno en Estudio Limadas')
+const WA = 'https://wa.me/5491154047769?text=' + encodeURIComponent('Hola! Quiero reservar un turno en Estudio Limadas')
 
 export default function Footer() {
   return (
-    <footer className="bg-black border-t border-white/[0.06] py-14">
-      <div className="max-w-[1200px] mx-auto px-6">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-          <div className="flex flex-col items-center md:items-start gap-3">
-            <img src={logo} alt="LMDS" className="h-8 w-auto opacity-60 invert" />
-            <p className="text-white/30 text-[12px]">Pergamino 160 &middot; Floresta, CABA</p>
+    <footer style={{ background: '#111', borderTop: '1px solid rgba(255,255,255,0.06)', padding: '56px 0' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px' }}>
+        <div className="footer-row" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 24 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <img src={logo} alt="LMDS" style={{ height: 32, width: 'auto', opacity: 0.5, filter: 'invert(1)' }} />
+            <p style={{ color: 'rgba(255,255,255,0.25)', fontSize: 12 }}>Pergamino 160 &middot; Floresta, CABA</p>
           </div>
-
-          <div className="flex items-center gap-8">
-            <a
-              href="https://www.instagram.com/estudio.limadas/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-white/40 text-[11px] tracking-[2px] uppercase hover:text-white transition-colors duration-300"
-            >
-              Instagram
-            </a>
-            <a
-              href={WA_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-white/40 text-[11px] tracking-[2px] uppercase hover:text-white transition-colors duration-300"
-            >
-              WhatsApp
-            </a>
-            <a
-              href="http://www.pinterest.com/estudiolimadas"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-white/40 text-[11px] tracking-[2px] uppercase hover:text-white transition-colors duration-300"
-            >
-              Pinterest
-            </a>
+          <div style={{ display: 'flex', gap: 32 }}>
+            {[
+              { label: 'Instagram', href: 'https://www.instagram.com/estudio.limadas/' },
+              { label: 'WhatsApp', href: WA },
+              { label: 'Pinterest', href: 'http://www.pinterest.com/estudiolimadas' },
+            ].map(l => (
+              <a key={l.label} href={l.href} target="_blank" rel="noopener noreferrer"
+                style={{ textDecoration: 'none', color: 'rgba(255,255,255,0.35)', fontSize: 11, letterSpacing: 2, textTransform: 'uppercase' }}>
+                {l.label}
+              </a>
+            ))}
           </div>
         </div>
-
-        <div className="mt-10 pt-8 border-t border-white/[0.06] text-center">
-          <p className="text-white/20 text-[11px]">
+        <div style={{ marginTop: 40, paddingTop: 32, borderTop: '1px solid rgba(255,255,255,0.06)', textAlign: 'center' }}>
+          <p style={{ color: 'rgba(255,255,255,0.18)', fontSize: 11 }}>
             &copy; {new Date().getFullYear()} Estudio Limadas. Todos los derechos reservados.
           </p>
         </div>
       </div>
+      <style>{`
+        @media (max-width: 600px) { .footer-row { flex-direction: column; align-items: center; text-align: center; } }
+      `}</style>
     </footer>
   )
 }
