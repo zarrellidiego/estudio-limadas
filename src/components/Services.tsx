@@ -3,7 +3,12 @@ import { useRef, useState } from 'react'
 
 const heading = "'Cormorant Garamond', serif"
 
-const categories = [
+const categories: {
+  id: string
+  title: string
+  subtitle: string
+  items: { name: string; price: string; detail?: string }[]
+}[] = [
   {
     id: 'esculpidas',
     title: 'Esculpidas',

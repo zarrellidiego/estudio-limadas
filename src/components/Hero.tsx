@@ -7,16 +7,18 @@ const heading = "'Cormorant Garamond', serif"
 // Logo background color: rgb(241, 191, 200) = #F1BFC8
 // We build the entire hero gradient from that exact pink so the logo square dissolves perfectly.
 
+const ease = [0.22, 1, 0.36, 1] as const
+
 const fade = (delay = 0) => ({
   initial: { opacity: 0, y: 30 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 1.1, delay, ease: [0.22, 1, 0.36, 1] },
+  transition: { duration: 1.1, delay, ease },
 })
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 16 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.85, delay, ease: [0.22, 1, 0.36, 1] },
+  transition: { duration: 0.85, delay, ease },
 })
 
 export default function Hero() {
