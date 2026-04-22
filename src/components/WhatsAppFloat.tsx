@@ -3,9 +3,9 @@ const WA = 'https://wa.me/5491154047769?text=' + encodeURIComponent('Hola! Quier
 export default function WhatsAppFloat() {
   return (
     <>
-      {/* Desktop floating button with breathing effect */}
+      {/* Desktop: floating button with breathing effect */}
       <a href={WA} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"
-        className="wa-float"
+        className="wa-float-desktop"
         style={{
           position: 'fixed', bottom: 28, right: 28, zIndex: 50,
           width: 60, height: 60, borderRadius: '50%',
@@ -25,7 +25,7 @@ export default function WhatsAppFloat() {
         </svg>
       </a>
 
-      {/* Mobile sticky CTA bar */}
+      {/* Mobile: sticky CTA bar ONLY (no floating button) */}
       <div className="mobile-cta" style={{
         position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 40,
         background: 'rgba(17,17,17,0.96)', backdropFilter: 'blur(20px)',
@@ -53,10 +53,10 @@ export default function WhatsAppFloat() {
           0%, 100% { transform: scale(1); opacity: 0.4; }
           50% { transform: scale(1.15); opacity: 0; }
         }
-        .wa-float:hover { animation-play-state: paused; transform: scale(1.12) !important; box-shadow: 0 8px 36px rgba(37,211,102,0.55) !important; }
+        .wa-float-desktop:hover { animation-play-state: paused; transform: scale(1.12) !important; box-shadow: 0 8px 36px rgba(37,211,102,0.55) !important; }
         .mobile-cta-btn:active { transform: scale(0.98); }
         @media (max-width: 768px) {
-          .wa-float { bottom: 80px !important; right: 20px !important; width: 54px !important; height: 54px !important; }
+          .wa-float-desktop { display: none !important; }
           .mobile-cta { display: block !important; }
         }
       `}</style>

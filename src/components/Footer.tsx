@@ -48,6 +48,9 @@ export default function Footer() {
           <p style={{ color: 'rgba(255,255,255,0.12)', fontSize: 10.5, fontWeight: 300, letterSpacing: 0.5 }}>
             &copy; {new Date().getFullYear()} Estudio Limadas. Todos los derechos reservados.
           </p>
+          <p style={{ color: 'rgba(255,255,255,0.08)', fontSize: 9.5, fontWeight: 300, marginTop: 8 }}>
+            Maqueta realizada para Estudio Limadas el 21 de abril de 2026 por Diego de Solucionez
+          </p>
         </div>
       </div>
       <style>{`
